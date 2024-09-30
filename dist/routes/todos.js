@@ -7,15 +7,17 @@ router.get('/', (req, res, next) => {
     res.status(200).json({ todos: todos });
 });
 router.post('/todo', (req, res, next) => {
+    const body = req.body;
     const newTodo = {
         id: new Date().toISOString(),
-        text: req.body.text
+        text: body.text
     };
     todos.push(newTodo);
     res.status(200).json({ messsage: 'Added todo', todos: todos, newTodo: newTodo });
 });
 router.delete('/delete-todo', (req, res, next) => {
-    const id = req.body.id;
+    const body = req.body;
+    const id = body.id;
     const todoIndex = todos.findIndex(todoItem => todoItem.id == id);
     if (todoIndex >= 0) {
         todos = todos.filter(todoItem => todoItem.id != id);
@@ -26,8 +28,9 @@ router.delete('/delete-todo', (req, res, next) => {
     }
 });
 router.put('/update-todo', (req, res, next) => {
-    const tid = req.body.id;
-    const newText = req.body.text;
+    const body = req.body;
+    const tid = body.id;
+    const newText = body.text;
     const todoIndex = todos.findIndex(todoItem => todoItem.id == tid);
     if (todoIndex >= 0) {
         todos[todoIndex] = {
